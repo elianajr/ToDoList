@@ -5,9 +5,11 @@ const Task = props => {
 	return (
 		<li>
 			{props.label}
-			<i
-				className="far fa-trash-alt"
-				onClick={() => props.delete(props.id)}></i>
+			<span>
+				<i
+					className="far fa-trash-alt"
+					onClick={() => props.delete(props.id)}></i>
+			</span>
 		</li>
 	);
 };

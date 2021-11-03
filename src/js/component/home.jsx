@@ -72,12 +72,13 @@ const Home = () => {
 
 	return (
 		<div className="myList">
+			<h2>To Do List</h2>
 			<form
 				onSubmit={event => {
 					event.preventDefault();
 					setList([...list, { label: INPUT.value, done: false }]);
 				}}>
-				<input type="text" />
+				<input type="text" placeholder="Things to be done" />
 			</form>
 			<ul>{toDoList}</ul>
 		</div>
