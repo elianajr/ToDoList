@@ -3,25 +3,9 @@ import Task from "./task.jsx";
 
 const Home = () => {
 	const INPUT = document.querySelector("input");
-	// const [task, setTask] = useState("");
-	// const [item, setItem] = useState("");
 	const [list, setList] = useState([]);
 	const [toDoList, setToDoList] = useState([]);
-
-	useEffect(() => {
-		setToDoList(
-			list.map((tasks, index) => {
-				return (
-					<Task
-						label={tasks.label}
-						key={index.toString()}
-						id={index.toString()}
-						delete={handleRemoveItem}
-					/>
-				);
-			})
-		);
-	}, [list]);
+	const [update, setUpdate] = useState(false);
 
 	useEffect(() => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/eliana", {
@@ -64,10 +48,38 @@ const Home = () => {
 			.catch(error => {
 				console.log(error);
 			});
+	}, [update]);
+
+	useEffect(() => {
+		setToDoList(
+			list.map((tasks, index) => {
+				return (
+					<Task
+						label={tasks.label}
+						key={index.toString()}
+						id={index.toString()}
+						task={tasks}
+						delete={handleRemoveItem}
+						cross={crossItem}
+					/>
+				);
+			})
+		);
 	}, [list]);
 
 	const handleRemoveItem = indexList => {
 		setList(list.filter((_, index) => index != indexList));
+	};
+
+	const crossItem = taskLabel => {
+		let updatedTasks = list.map(task => {
+			if (task.label == taskLabel) {
+				return { label: task.label, done: !task.done };
+			}
+			return task;
+		});
+		setList(updatedTasks);
+		setUpdate(true);
 	};
 
 	return (
@@ -76,7 +88,9 @@ const Home = () => {
 			<form
 				onSubmit={event => {
 					event.preventDefault();
+					setUpdate(true);
 					setList([...list, { label: INPUT.value, done: false }]);
+					INPUT.value = "";
 				}}>
 				<input type="text" placeholder="Things to be done" />
 			</form>

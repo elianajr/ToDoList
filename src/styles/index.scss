@@ -75,9 +75,16 @@ span {
   right: 0;
   top: 0;
 }
+
+button {
+  border: none;
+  background-color: transparent;
+}
   
-span:hover {
+button:hover {
   background-color: #CD4B4B;
   color: white;
 }
+
+
   
